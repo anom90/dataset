@@ -1,9 +1,13 @@
+#Jalankan Paket Analisis
+pacman::p_load('semTools', 'lavaan', 'semPlot', 
+               'semptools')
 
+#Panggil Data
 data <- read.csv('Data_Path.csv', sep = ',')
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 
 #Spesifikasi Model
 
@@ -104,7 +108,7 @@ dev.off()
 #Simpan
 sink('Hasil Analisis Jalur.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 cat('\n')
 cat('***Ringkasan Hasil Analisis Jalur***', '\n')
 summary(uji_path, fit.measure = T, standardized = T, 

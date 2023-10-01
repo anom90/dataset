@@ -1,9 +1,13 @@
+#Jalankan Paket Analisis
+pacman::p_load('semTools', 'lavaan', 'semPlot', 
+               'semptools')
 
+#Panggil Data
 data <- read.csv('Data_CFA_4.csv', sep = ',')
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 
 #Spesifikasi Model
 model_cfa_modif <- '
@@ -31,10 +35,10 @@ summary(uji_cfa_modif, fit.measure = T, standardized = T,
         rsquare = T)
 
 #Reliabilitas
-semTools::compRelSEM(uji_cfa_modif)
+compRelSEM(uji_cfa_modif)
 
 #Validitas Konvergen
-semTools::AVE(uji_cfa_modif)
+AVE(uji_cfa_modif)
 
 #1. Visualisasi Model Hipotetik
 p_pa <- semPaths(uji_cfa_modif, whatLabels = 'path', 
@@ -78,17 +82,17 @@ dev.off()
 #Simpan
 sink('Hasil Analisis CFA Modifikasi.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 cat('\n')
 cat('***Ringkasan Hasil CFA Modifikasi***', '\n')
 summary(uji_cfa_modif, fit.measure = T, standardized = T, 
         rsquare = T)
 cat('\n')
 cat('***Hasil Estimasi Reliabilitas***', '\n')
-semTools::compRelSEM(uji_cfa_modif)
+compRelSEM(uji_cfa_modif)
 cat('\n')
 cat('***Hasil Validitas Konvergen***', '\n')
-semTools::AVE(uji_cfa_modif)
+AVE(uji_cfa_modif)
 cat('\n')
 sink()
 

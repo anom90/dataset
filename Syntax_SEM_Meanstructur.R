@@ -1,12 +1,13 @@
-
+#Jalankan Paket Analisis
 pacman::p_load('semTools', 'lavaan', 'semPlot', 
                'semptools')
 
+#Panggil Data
 data <- read.csv('Data_SEM.csv', sep = ',')
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 
 #Spesifikasi Model
 model_sem_mean <- '
@@ -42,13 +43,13 @@ summary(uji_sem_mean, fit.measure = T, standardized = T,
         rsquare = T)
 
 #Reliabilitas
-semTools::compRelSEM(uji_sem_mean)
+compRelSEM(uji_sem_mean)
 
 #Validitas Konvergen
-semTools::AVE(uji_sem_mean)
+AVE(uji_sem_mean)
 
 #Validitas Diskriminan
-semTools::htmt(model_sem_mean, data)
+htmt(model_sem_mean, data)
 
 
 #1. Visualisasi Model Hipotetik
@@ -99,20 +100,20 @@ dev.off()
 #Simpan
 sink('Hasil Analisis SEM Meanstructure.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 cat('\n')
 cat('***Ringkasan Hasil SEM Meanstructure***', '\n')
 summary(uji_sem, fit.measure = T, standardized = T, 
         rsquare = T)
 cat('\n')
 cat('***Hasil Estimasi Relibilitas***', '\n')
-semTools::compRelSEM(uji_sem_mean)
+compRelSEM(uji_sem_mean)
 cat('\n')
 cat('***Hasil Validitas Konvergen***', '\n')
-semTools::AVE(uji_sem_mean)
+AVE(uji_sem_mean)
 cat('\n')
 cat('***Hasil Validitas Diskriminan***', '\n')
-semTools::htmt(model_sem_mean, data)
+htmt(model_sem_mean, data)
 cat('\n')
 sink()
 

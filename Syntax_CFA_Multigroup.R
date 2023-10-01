@@ -1,12 +1,13 @@
-
+#Jalankan Paket Analisis
 pacman::p_load('semTools', 'lavaan', 'semPlot', 
-               'semptools', 'patchwork')
+               'semptools')
 
+#Panggil Data
 data <- read.csv('Data_CFA_2.csv', sep = ',')
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data[,-11]), 3)
+round(mardiaKurtosis(data[,-11]), 3)
 
 #Spesifikasi Model
 model_cfa_group <- '
@@ -38,10 +39,10 @@ summary(uji_mgcfa$fit.means, fit.measure = T,
 
 
 #Reliabilitas
-semTools::compRelSEM(uji_mgcfa$fit.configural, higher = "KP")
+compRelSEM(uji_mgcfa$fit.configural, higher = "KP")
 
 #Validitas Konvergen
-semTools::AVE(uji_mgcfa$fit.configural)
+AVE(uji_mgcfa$fit.configural)
 
 #1. Visualisasi Model Hipotetik
 par(mfrow = c(1,2))
@@ -104,7 +105,7 @@ dev.off()
 #Simpan
 sink('Hasil Analisis CFA Multiple-Group.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data[,-11]), 3)
+round(mardiaKurtosis(data[,-11]), 3)
 cat('\n')
 cat('***Ringkasan Hasil CFA Multiple-Group***', '\n')
 summary(uji_mgcfa$fit.configural, fit.measure = T, 
@@ -117,11 +118,10 @@ uji_mgcfa <- measurementInvariance(model = model_cfa_group,
                                    strict = T)
 cat('\n')
 cat('***Hasil Validitas Konvergen***', '\n')
-semTools::AVE(uji_mgcfa$fit.configural)
+AVE(uji_mgcfa$fit.configural)
 cat('\n')
 cat('***Hasil Estimasi Relibilitas***', '\n')
-semTools::compRelSEM(uji_mgcfa$fit.configural, 
-                     higher = "KP")
+compRelSEM(uji_mgcfa$fit.configural, higher = "KP")
 cat('\n')
 sink()
 

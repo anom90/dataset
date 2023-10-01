@@ -1,11 +1,13 @@
+#Jalankan Paket Analisis
 pacman::p_load('semTools', 'lavaan', 'semPlot', 
                'semptools')
 
+#Panggil Data
 data <- read.csv('Data_CFA_2.csv', sep = ',')
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data[,-11]), 3)
+round(mardiaKurtosis(data[,-11]), 3)
 
 #Spesifikasi Model
 model_cfa_2orde <- '
@@ -24,14 +26,14 @@ summary(uji_cfa_2orde, fit.measure = T, standardized = T,
         rsquare = T)
 
 #Validitas Konvergen
-semTools::AVE(uji_cfa_2orde)
+AVE(uji_cfa_2orde)
 
 #Reliabilitas
-semTools::compRelSEM(uji_cfa_2orde, higher = "KP")
+compRelSEM(uji_cfa_2orde, higher = "KP")
 
 #Skor Faktor
 #Estimasi Skor Faktor
-s_faktor <- lavaan::lavPredict(uji_cfa_2orde)
+s_faktor <- lavPredict(uji_cfa_2orde)
 
 #Menggabungkan Skor Faktor dengan Data Asli
 data_gab <- round(cbind(data[,-11], s_faktor),2)
@@ -79,17 +81,17 @@ dev.off()
 #Simpan
 sink('Hasil Analisis CFA Second Orde.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 cat('\n')
 cat('***Ringkasan Hasil CFA Second Orde***', '\n')
 summary(uji_cfa_2orde, fit.measure = T, standardized = T, 
         rsquare = T)
 cat('\n')
 cat('***Hasil Validitas Konvergen***', '\n')
-semTools::AVE(uji_cfa_2orde)
+AVE(uji_cfa_2orde)
 cat('\n')
 cat('***Hasil Estimasi Relibilitas***', '\n')
-semTools::compRelSEM(uji_cfa_2orde, higher = "KP")
+compRelSEM(uji_cfa_2orde, higher = "KP")
 cat('\n')
 cat('***Hasil Estimasi Skor Faktor***', '\n')
 data_gab

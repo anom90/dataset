@@ -1,12 +1,13 @@
-
+#Jalankan Paket Analisis
 pacman::p_load('semTools', 'lavaan', 'semPlot', 
                'semptools')
 
+#Panggil Data
 data <- read.csv('Data_CFA_2.csv', sep = ',')
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data[,-11]), 3)
+round(mardiaKurtosis(data[,-11]), 3)
 
 #Spesifikasi Model
 model_cfa_multi <- '
@@ -20,17 +21,17 @@ summary(uji_cfa_multi, fit.measure = T, standardized = T,
         rsquare = T)
 
 #Validitas Konvergen
-semTools::AVE(uji_cfa_multi)
+AVE(uji_cfa_multi)
 
 #Validitas Diskriminan
-semTools::htmt(model_cfa_multi, data)
+htmt(model_cfa_multi, data)
 
 #Reliabilitas
-semTools::compRelSEM(uji_cfa_multi, return.total = T)
+compRelSEM(uji_cfa_multi, return.total = T)
 
 #Skor Faktor
 #Estimasi Skor Faktor
-s_faktor <- lavaan::lavPredict(uji_cfa_multi)
+s_faktor <- lavPredict(uji_cfa_multi)
 
 #Menggabungkan Skor Faktor dengan Data Asli
 data_gab <- round(cbind(data[,-11], s_faktor),2)
@@ -78,19 +79,19 @@ dev.off()
 #Simpan
 sink('Hasil Analisis CFA Multidimensi.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 cat('\n')
 cat('***Ringkasan Hasil CFA Multidimensi***', '\n')
 summary(uji_cfa_uni, fit.measure = T, standardized = T, 
         rsquare = T)
 cat('\n')
 cat('***Hasil Validitas Konvergen***', '\n')
-semTools::AVE(uji_cfa_multi)
+AVE(uji_cfa_multi)
 cat('\n')
 cat('***Hasil Validitas Diskriminan***', '\n')
-semTools::htmt(model_cfa_multi, data)
+htmt(model_cfa_multi, data)
 cat('***Hasil Estimasi Relibilitas***', '\n')
-semTools::compRelSEM(uji_cfa_multi, return.total = T)
+compRelSEM(uji_cfa_multi, return.total = T)
 cat('\n')
 sink()
 

@@ -1,9 +1,13 @@
+#Jalankan Paket Analisis
+pacman::p_load('semTools', 'lavaan', 'semPlot', 
+               'semptools')
 
+#Panggil Data
 data <- read.csv('Data_ESEM.csv', sep = ',')
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 
 #Spesifikasi Model
 model_esem <- '
@@ -122,7 +126,7 @@ dev.off()
 #Simpan
 sink('Hasil Analisis ESEM.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data), 3)
+round(mardiaKurtosis(data), 3)
 cat('\n')
 cat('***Ringkasan Hasil ESEM***', '\n')
 summary(uji_esem, fit.measure = T, standardized = T, 

@@ -1,6 +1,8 @@
+#Jalankan Paket Analisis
 pacman::p_load('semTools', 'lavaan', 'semPlot', 
                'semptools')
 
+#Panggil Data
 data <- read.csv('Data_SEM_MIMC.csv', sep = ';')
 head(data)
 
@@ -9,7 +11,7 @@ data[5] <- ifelse(data[,5] == 2, 1, 0)
 head(data)
 
 #Normalitas Multivariat
-round(semTools::mardiaKurtosis(data[,-5]), 3)
+round(mardiaKurtosis(data[,-5]), 3)
 
 #Spesifikasi Model
 model_sem_mimc <- '
@@ -18,16 +20,16 @@ model_sem_mimc <- '
                   '
 
 #Estimasi Model
-uji_sem_mimc <- lavaan::sem(model_sem_mimc, data = data, 
+uji_sem_mimc <- sem(model_sem_mimc, data = data, 
                    estimator = 'WLSMV')
 summary(uji_sem_mimc, fit.measure = T, standardized = T, 
         rsquare = T)
 
 #Reliabilitas
-semTools::compRelSEM(uji_sem_mimc)
+compRelSEM(uji_sem_mimc)
 
 #Validitas Konvergen
-semTools::AVE(uji_sem_mimc)
+AVE(uji_sem_mimc)
 
 #1. Visualisasi Model Hipotetik
 #Gambar Model Hipotetik
@@ -107,17 +109,17 @@ dev.off()
 #Simpan
 sink('Hasil Analisis MIMC.txt')
 cat('***Uji Asumsi Normalitas Multivariat***', '\n')
-round(semTools::mardiaKurtosis(data[,-5]), 3)
+round(mardiaKurtosis(data[,-5]), 3)
 cat('\n')
 cat('***Ringkasan Hasil MIMC***', '\n')
 summary(uji_sem_mimc, fit.measure = T, standardized = T, 
         rsquare = T)
 cat('\n')
 cat('***Hasil Estimasi Relibilitas***', '\n')
-semTools::compRelSEM(uji_sem_mimc)
+compRelSEM(uji_sem_mimc)
 cat('\n')
 cat('***Hasil Validitas Konvergen***', '\n')
-semTools::AVE(uji_sem_mimc)
+AVE(uji_sem_mimc)
 cat('\n')
 sink()
 
