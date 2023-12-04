@@ -51,7 +51,7 @@ curve_vector <- c('K_Mhs ~~ K_Dos' = -3,
 p_pa2 <- set_curve(p_pa, curve_vector)
 plot(p_pa2)
 #Atur Jalur Residual sesuai Kebutuhan
-resid_vector <- c(K_Prog = 1)
+rotate_resid_vector <- c(K_Prog = 1)
 
 #Buat Plot Analisis Jalur sesuai "resid_vector"
 p_pa3 <- rotate_resid(p_pa2, resid_vector)
